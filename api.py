@@ -8,8 +8,9 @@ CORS(app)
 @app.route('/messages/save', methods = ['POST'])
 def send():
     try:
+        API_KEY = request.headers["Authorization"]
         message = request.json['message']
-        chatGptResponse = messages.sendMessage(message)
+        chatGptResponse = messages.sendMessage(message, API_KEY)
         res = {}
         res['message'] = chatGptResponse
         return res, 200

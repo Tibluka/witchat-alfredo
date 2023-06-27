@@ -1,11 +1,11 @@
 import json
 import requests
-from api_key import API_KEY
+from cryptography.fernet import Fernet
 
 
-def sendMessage(message):
-    print(API_KEY)
-    headers = {"Authorization": f"Bearer {API_KEY}", "Content-Type": "application/json"}
+
+def sendMessage(message, API_KEY):
+    headers = {"Authorization": API_KEY, "Content-Type": "application/json"}
     endpoint = 'https://api.openai.com/v1/chat/completions'
     model = "gpt-3.5-turbo"
     payload = {
@@ -17,5 +17,5 @@ def sendMessage(message):
     payload = json.dumps(payload)
     response = requests.post(endpoint, headers=headers, data=payload).json()
     m = response["choices"][0]["message"]["content"]
-    return message
+    return m
     
