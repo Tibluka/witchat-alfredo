@@ -15,7 +15,7 @@ def send():
         return res, 200
     except:
         e = {}
-        e['error'] = e
+        e['error'] = e['message']
         return e, 500
 
 
