@@ -11,7 +11,7 @@ def sendMessage(message, API_KEY):
     payload = {
         "model": model,
         "prompt": message,
-        "max_tokens": 1000
+        "max_tokens": 10000
     }
     payload = json.dumps(payload)
     response = requests.post(endpoint, headers=headers, data=payload).json()
