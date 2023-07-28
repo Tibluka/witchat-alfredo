@@ -11,10 +11,15 @@ def sendMessage(message, API_KEY):
     payload = {
         "model": model,
         "prompt": message,
-        "max_tokens": 10000
+        "max_tokens": 4000
     }
     payload = json.dumps(payload)
     response = requests.post(endpoint, headers=headers, data=payload).json()
-    m = response["choices"][0]["text"]
+    m = None
+    if response.get("id"):
+        m = response["choices"][0]["text"]
+    else:
+        print(response)
+        m = response["error"]["message"]
     return m
     
