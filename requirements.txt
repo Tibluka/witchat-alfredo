@@ -4,3 +4,4 @@ flask_cors
 docx
 PyMuPDF
 python-docx
+openpyxl
