@@ -4,6 +4,7 @@ import fitz
 from docx import Document
 from flask_cors import CORS
 from services import messages
+import openpyxl
 
 app = Flask(__name__)
 CORS(app, resources={
@@ -18,6 +19,8 @@ def extract_text_from_file(file_path):
         return extract_text_from_pdf(file_path)
     elif ext == '.docx':
         return extract_text_from_word(file_path)
+    elif ext == '.xlsx':
+        return extract_text_from_excel(file_path)
     else:
         raise ValueError("Formato de arquivo não suportado. Use PDF ou DOCX.")
 
@@ -32,6 +35,17 @@ def extract_text_from_pdf(file_path):
 def extract_text_from_word(file_path):
     doc = Document(file_path)
     text = "\n".join([paragraph.text for paragraph in doc.paragraphs])
+    return text
+
+def extract_text_from_excel(file_path):
+    workbook = openpyxl.load_workbook(file_path)
+    text = ""
+    for sheet in workbook.worksheets:
+        for row in sheet.iter_rows():
+            for cell in row:
+                if cell.value:
+                    text += str(cell.value) + " "
+            text += "\n"
     return text
 
 @app.route('/extract-text', methods=['POST'])
