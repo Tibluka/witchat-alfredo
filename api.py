@@ -6,7 +6,10 @@ from flask_cors import CORS
 from services import messages
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={
+     r"/extract-text": {"origins": "https://pocfilerecognition.netlify.app"}})
+CORS(app, resources={
+     r"/send-message": {"origins": "https://pocfilerecognition.netlify.app"}})
 
 def extract_text_from_file(file_path):
     ext = os.path.splitext(file_path)[-1].lower()
