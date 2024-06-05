@@ -1,4 +1,5 @@
 requests
 flask
 flask_cors
-cryptography
+fitz
+docx
