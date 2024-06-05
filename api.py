@@ -49,7 +49,7 @@ def extract_text():
         file.save(file_path)
         text = extract_text_from_file(file_path)
         os.remove(file_path)  # Remove the file after processing
-        return jsonify({'text': text}), 200
+        return jsonify({'text': 'Esse é o conteúdo de texto do arquivo que eu quero que você analise: ' + text}), 200
     except ValueError as e:
         return jsonify({'error': str(e)}), 400
     except Exception as e:
