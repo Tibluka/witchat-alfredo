@@ -1,6 +1,6 @@
 import os
 from flask import Flask, request, jsonify
-import fitz  # PyMuPDF
+import fitz
 from docx import Document
 from flask_cors import CORS
 from services import messages
