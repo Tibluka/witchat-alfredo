@@ -1,7 +1,6 @@
 requests
 flask
 flask_cors
-fitz
 docx
 PyMuPDF
 python-docx
