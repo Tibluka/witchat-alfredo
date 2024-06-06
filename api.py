@@ -76,7 +76,7 @@ def extract_text():
     except ValueError as e:
         return jsonify({'error': str(e)}), 400
     except Exception as e:
-        return jsonify({'error': e}), 500
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/send-message', methods = ['POST'])
 def send():
