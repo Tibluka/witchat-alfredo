@@ -5,3 +5,5 @@ docx
 PyMuPDF
 python-docx
 openpyxl
+Pillow
+pytesseract

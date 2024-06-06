@@ -5,6 +5,8 @@ from docx import Document
 from flask_cors import CORS
 from services import messages
 import openpyxl
+from PIL import Image
+import pytesseract
 
 app = Flask(__name__)
 CORS(app, resources={
@@ -21,6 +23,8 @@ def extract_text_from_file(file_path):
         return extract_text_from_word(file_path)
     elif ext == '.xlsx':
         return extract_text_from_excel(file_path)
+    elif ext in ['.png', '.jpeg', '.jpg']:
+        return extract_text_from_image(file_path)
     else:
         raise ValueError("Formato de arquivo não suportado. Use PDF ou DOCX.")
 
@@ -46,6 +50,11 @@ def extract_text_from_excel(file_path):
                 if cell.value:
                     text += str(cell.value) + " "
             text += "\n"
+    return text
+
+def extract_text_from_image(file_path):
+    image = Image.open(file_path)
+    text = pytesseract.image_to_string(image)
     return text
 
 @app.route('/extract-text', methods=['POST'])
