@@ -5,6 +5,4 @@ docx
 PyMuPDF
 python-docx
 openpyxl
-Pillow
-pytesseract
-tesseract
+requests

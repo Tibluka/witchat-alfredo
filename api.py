@@ -5,8 +5,8 @@ from docx import Document
 from flask_cors import CORS
 from services import messages
 import openpyxl
-from PIL import Image
-import pytesseract
+import requests
+
 
 app = Flask(__name__)
 CORS(app, resources={
@@ -53,9 +53,27 @@ def extract_text_from_excel(file_path):
     return text
 
 def extract_text_from_image(file_path):
-    image = Image.open(file_path)
-    text = pytesseract.image_to_string(image)
-    return text
+
+    # Defina sua chave de API do OCR.space
+    api_key = 'K82205915788957'
+    
+    # Prepare os parâmetros da solicitação
+    payload = {'apikey': api_key, 'language': 'por'}
+    
+    # Faça uma solicitação para o OCR.space API para reconhecimento de texto na imagem
+    with open(file_path, 'rb') as f:
+        r = requests.post('https://api.ocr.space/parse/image', files={'image': f}, data=payload)
+    
+    # Verifique se a solicitação foi bem-sucedida e obtenha o texto reconhecido da resposta da API
+    if r.status_code == 200:
+        result = r.json()
+        if result['ParsedResults']:
+            recognized_text = result['ParsedResults'][0]['ParsedText']
+            return recognized_text
+        else:
+            return "Nenhum texto reconhecido."
+    else:
+        return "Erro ao fazer solicitação para o OCR.space API."
 
 @app.route('/extract-text', methods=['POST'])
 def extract_text():
